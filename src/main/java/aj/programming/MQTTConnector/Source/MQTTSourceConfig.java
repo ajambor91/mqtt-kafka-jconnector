@@ -38,11 +38,40 @@ public class MQTTSourceConfig extends AbstractConfig {
     }
 
     public MQTTSourceConfig(Map<?, ?> originals) {
-        super(getConfig(), originals,false);
+        super(getConfig(), originals, false);
     }
-
 
     public static ConfigDef getConfig() {
         return MQTTSourceConfig.configDef;
+    }
+
+    @Override
+    public String getString(String configName) {
+        return String.valueOf(this.get(configName));
+    }
+
+    @Override
+    public Integer getInt(String configName) {
+        try {
+
+            return Integer.parseInt(String.valueOf(this.get(configName)));
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("Cannot convert config value for " + configName + " to integer: " + this.originals().get(configName), e);
+        }
+    }
+
+    @Override
+    public Boolean getBoolean(String configName) {
+        Object value = this.get(configName);
+        if (value == null) {
+            throw new IllegalArgumentException("Config value for " + configName + " is null");
+        }
+        String stringValue = value.toString();
+        if (stringValue.equalsIgnoreCase("true")) {
+            return true;
+        } else if (stringValue.equalsIgnoreCase("false")) {
+            return false;
+        }
+        throw new IllegalArgumentException("Cannot convert given value to boolean: " + stringValue);
     }
 }

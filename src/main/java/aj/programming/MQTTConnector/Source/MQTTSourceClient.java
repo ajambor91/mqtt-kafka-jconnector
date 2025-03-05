@@ -1,7 +1,6 @@
 package aj.programming.MQTTConnector.Source;
 
 import aj.programming.MQTTConnector.Buffers.SourceMessageBuffer;
-import aj.programming.MQTTConnector.Kafka.Publisher;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -11,13 +10,11 @@ import org.slf4j.LoggerFactory;
 public class MQTTSourceClient extends MqttClient {
     private final Logger logger = LoggerFactory.getLogger(MQTTSourceClient.class);
     private final SourceMessageBuffer messageBuffer;
-    private final Publisher publisher;
 
-    public MQTTSourceClient(MQTTSourceConfig mqttSourceConfig, Publisher publisher, SourceMessageBuffer messageBuffer, String serverURI, String clientId) throws MqttException {
+    public MQTTSourceClient(MQTTSourceConfig mqttSourceConfig, SourceMessageBuffer messageBuffer, String serverURI, String clientId) throws MqttException {
         super(serverURI, clientId);
         this.logger.info("Created MQTTSourceClient");
         this.messageBuffer = messageBuffer;
-        this.publisher = publisher;
         this.initialize(mqttSourceConfig);
     }
 
@@ -27,14 +24,6 @@ public class MQTTSourceClient extends MqttClient {
         super.subscribe(topicFilters, qos, (topic, message) -> {
             this.logger.info("Received message: {} from topic: {}", message, topic);
             this.messageBuffer.addMessage(String.valueOf(message));
-            if (this.publisher.isAlive()) {
-                synchronized (this.publisher) {
-                    this.logger.info("Notify producer on topic: {}", topic);
-
-                    this.publisher.notify();
-
-                }
-            }
         });
     }
 

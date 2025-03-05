@@ -10,7 +10,7 @@ import java.util.*;
 
 public class MQTTSourceConnector extends SourceConnector {
     private Map<String, String> configProps;
-    private Logger logger = LoggerFactory.getLogger(MQTTSourceConnector.class);
+    private final Logger logger = LoggerFactory.getLogger(MQTTSourceConnector.class);
 
     @Override
     public void start(Map<String, String> map) {

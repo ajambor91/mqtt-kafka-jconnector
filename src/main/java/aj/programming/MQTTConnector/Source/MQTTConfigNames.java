@@ -9,8 +9,6 @@ public class MQTTConfigNames {
     public static final String BROKER = "mqtt.broker";
     public static final String BROKER_DOC = "The URL of the MQTT broker (e.g., tcp://localhost:1883).";
 
-    public static final String CLIENTID = "mqtt.clientID";
-    public static final String CLIENTID_DOC = "The client ID for the MQTT connection.";
 
     public static final String MQTT_TOPIC = "mqtt.topic";
     public static final String MQTT_TOPIC_DOC = "The MQTT topic to subscribe to and receive messages from.";
@@ -29,7 +27,6 @@ public class MQTTConfigNames {
 
     public static final String KAFKA_TOPIC = "kafka.topic";
     public static final String KAFKA_TOPIC_DOC = "The Kafka topic to send messages to.";
-
     public static final String MQTT_QOS = "mqtt.qos";
     public static final String MQTT_QOS_DOC = "The Quality of Service (QoS) level for the MQTT connection (0, 1, or 2).";
 
@@ -39,12 +36,13 @@ public class MQTTConfigNames {
     public static final String MQTT_PASSWORD = "mqtt.password";
     public static final String MQTT_PASSWORD_DOC = "The password for authenticating with the MQTT broker.";
 
-    public static final String MQTT_CLIENT_ID = "mqttClientId";
+    public static final String MQTT_CLIENT_ID = "mqtt.clientId";
     public static final String MQTT_CLIENT_ID_DOC = "An alternative client ID for the MQTT connection.";
 
     public static final String KAFKA_SERVER = "kafka.server";
     public static final String KAFKA_SERVER_DOC = "Bootstrap kafka server";
-
+    public static final String UNIQUE_ID = "uniqueId";
+    public static final String UNIQUE_ID_DOC = "Unique connector ID";
     public static final String VALUE_CONVERTER_SCHEMAS_ENABLE = "value.converter.schemas.enable";
     public static final String VALUE_CONVERTER_SCHEMAS_ENABLE_DOC = "Enables schemas in the value converter.";
 
@@ -66,8 +64,8 @@ public class MQTTConfigNames {
 
     static {
         configSet.add(new ConfigData(BROKER, BROKER_DOC, true));
-        configSet.add(new ConfigData(CLIENTID, CLIENTID_DOC, true));
         configSet.add(new ConfigData(MQTT_TOPIC, MQTT_TOPIC_DOC, true));
+        configSet.add(new ConfigData(UNIQUE_ID, UNIQUE_ID_DOC, true));
         configSet.add(new ConfigData(MQTT_ARC, MQTT_ARC_DOC, ConfigDef.Type.BOOLEAN, ConfigDef.Importance.LOW));
         configSet.add(new ConfigData(MQTT_KEEPALIVEINTERVAL, MQTT_KEEPALIVEINTERVAL_DOC, ConfigDef.Type.INT, ConfigDef.Importance.LOW));
         configSet.add(new ConfigData(MQTT_CLEANSESSION, MQTT_CLEANSESSION_DOC, ConfigDef.Type.BOOLEAN, ConfigDef.Importance.LOW));

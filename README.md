@@ -41,21 +41,36 @@ These instructions will get you a copy of the project up and running on your loc
             "name": "your-name",
             "config": {
                 "connector.class": "aj.programming.MQTTConnector.Source.MQTTSourceConnector",
-                "mqtt.clientID": "your-id",
+                "mqtt.clientId": "your-id",
                 "mqtt.topic": "your-topic",
                 "kafka.topic": "your-kafka-topic",
+                 "uniqueId": "id"
             }
         }
 ```
 This is the basic required configuration. With these settings, the MQTT broker defaults to tcp://localhost:1883, and the Kafka broker to localhost:9092.
-
-Here is the complete list of configurable options:
+Also here is minimal recommended payload:
 ``` bash
         {
             "name": "your-name",
             "config": {
                 "connector.class": "aj.programming.MQTTConnector.Source.MQTTSourceConnector",
-                "mqtt.clientID": "your-id",
+                "mqtt.clientId": "your-id",
+                "mqtt.topic": "your-topic",
+                "mqtt.broker": "tcp://localhost:1883",
+                "kafka.server": "http://localhost:9092",
+                "kafka.topic": "your-kafka-topic",
+                "uniqueId": "id"
+            }
+        }
+```
+And here is the complete list of configurable options:
+``` bash
+        {
+            "name": "your-name",
+            "config": {
+                "connector.class": "aj.programming.MQTTConnector.Source.MQTTSourceConnector",
+                "mqtt.clientId": "your-id",
                 "mqtt.topic": "your-topic",
                 "mqtt.keepAliveInterval": 10,
                 "mqtt.broker": "tcp://localhost:1883",
@@ -67,12 +82,7 @@ Here is the complete list of configurable options:
                 "mqtt.password": "your-password",
                 "kafka.server": "http://localhost:9092",
                 "kafka.topic": "your-kafka-topic",
-                "kafka.key.serializer": "org.apache.kafka.common.serialization.StringSerializer",
-                "kafka.value.serializer": "org.apache.kafka.common.serialization.StringSerializer"
-                "key.converter": "org.apache.kafka.connect.storage.StringConverter",
-                "key.converter.schemas.enable": false,
-                "value.converter": "org.apache.kafka.connect.storage.StringConverter",
-                "value.converter.schemas.enable": false,
+                "uniqueId": "id"
             }
         }
 ```
@@ -80,6 +90,14 @@ Here is the complete list of configurable options:
 You can also edit the config.properties file in the resources directory. This file contains the default configuration, but remember that incoming configuration will take precedence.  
 Please note: Currently, the connector reliably receives messages from the MQTT broker. However, there may be issues with sending these messages to Kafka. I am actively working to resolve this problem and will provide an update as soon as possible    
 Built with Kafka Connect Api v. 3.9.0 and Eclipse Paho MQTTv3 v. 1.2.5 
+## Testing
+Now are two the most important classes tested: MQTTSourceConnector, and MQTTSourceTask. First extends SourceConnector and second extends SourceTask, both from Kafka Connects Api.  
+To run test paste below command in main package directory
+
+```bash
+    mvn test
+```
+Make note, now for testing you have to run MQTT broker on your local machine with default port 1883. 
 ## Future Enhancements
 
 1. **Add unit and integration tests**

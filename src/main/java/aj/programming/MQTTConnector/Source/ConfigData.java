@@ -8,6 +8,7 @@ public class ConfigData {
     private final ConfigDef.Type type;
     private final ConfigDef.Importance importance;
     private final boolean isRequired;
+
     public ConfigData(String name, String doc, ConfigDef.Type type, ConfigDef.Importance importance, boolean isRequired) {
         this.name = name;
         this.doc = doc;
@@ -17,7 +18,7 @@ public class ConfigData {
     }
 
     public ConfigData(String name, String doc, ConfigDef.Type type, ConfigDef.Importance importance) {
-                this(name, doc,type, importance, false);
+        this(name, doc, type, importance, false);
     }
 
     public ConfigData(String name, String doc) {
@@ -31,6 +32,7 @@ public class ConfigData {
     public ConfigData(String name, String doc, ConfigDef.Importance importance, boolean isRequired) {
         this(name, doc, ConfigDef.Type.STRING, importance, isRequired);
     }
+
     public ConfigData(String name, String doc, ConfigDef.Importance importance) {
         this(name, doc, ConfigDef.Type.STRING, importance);
     }

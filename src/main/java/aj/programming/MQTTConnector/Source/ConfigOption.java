@@ -6,11 +6,11 @@ import java.util.NoSuchElementException;
 
 public final class ConfigOption {
     private final String name;
-    private Object value;
     private final String doc;
     private final ConfigDef.Type type;
     private final ConfigDef.Importance importance;
-    private boolean isRequired;
+    private Object value;
+    private final boolean isRequired;
 
     public ConfigOption(ConfigData configData) {
         this.type = configData.getType();
@@ -28,6 +28,7 @@ public final class ConfigOption {
         this(configData);
         this.setValue(configData, value);
     }
+
     public String getName() {
         return name;
     }
@@ -56,7 +57,7 @@ public final class ConfigOption {
             throw new NoSuchElementException("Cannot find required config value: " + configData.getName());
         } else if (!configData.getIsRequired() && value == null) {
             this.value = "";
-        }else if (configData.getType().equals(ConfigDef.Type.BOOLEAN)) {
+        } else if (configData.getType().equals(ConfigDef.Type.BOOLEAN)) {
             this.value = this.parseBoolValue(value);
         } else if (configData.getType().equals(ConfigDef.Type.INT)) {
             this.value = this.parseIntValue(value);
@@ -84,7 +85,5 @@ public final class ConfigOption {
         } catch (ClassCastException classCastException) {
             throw new IllegalArgumentException("Invalid config value type, string expected");
         }
-
-
     }
 }
