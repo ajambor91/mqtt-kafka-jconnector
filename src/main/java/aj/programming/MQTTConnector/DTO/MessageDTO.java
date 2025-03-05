@@ -1,10 +1,15 @@
 package aj.programming.MQTTConnector.DTO;
 
+import aj.programming.MQTTConnector.Serializers.MessageDTODeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(using = MessageDTODeserializer.class)
 public class MessageDTO {
     private final String message;
     private final String messageId;
     private final int messageNumber;
     private final long timestamp;
+
 
     public MessageDTO(String message, String messageId, int messageNumber, long timestamp) {
         this.message = message;

@@ -1,4 +1,4 @@
-package aj.programming.MQTTConnector.Source;
+package aj.programming.MQTTConnector.Config;
 
 import org.apache.kafka.common.config.ConfigDef;
 import org.slf4j.Logger;

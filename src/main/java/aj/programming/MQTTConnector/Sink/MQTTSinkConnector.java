@@ -1,32 +1,33 @@
-package aj.programming.MQTTConnector.Source;
+package aj.programming.MQTTConnector.Sink;
 
 import aj.programming.MQTTConnector.Config.MQTTConfig;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.connect.connector.Task;
-import org.apache.kafka.connect.source.SourceConnector;
+import org.apache.kafka.connect.sink.SinkConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-public class MQTTSourceConnector extends SourceConnector {
+public class MQTTSinkConnector extends SinkConnector {
+    private Logger logger = LoggerFactory.getLogger(MQTTSinkConnector.class);
     private Map<String, String> configProps;
-    private final Logger logger = LoggerFactory.getLogger(MQTTSourceConnector.class);
 
     @Override
-    public void start(Map<String, String> map) {
-        this.logger.info("Started MQTTSourceConnector with values = {}", map);
-        this.configProps = Collections.unmodifiableMap(map);
+    public void start(Map<String, String> props) {
+        this.logger.info("Started MQTTSourceConnector with values = {}", props);
+        this.configProps = Collections.unmodifiableMap(props);
     }
 
     @Override
     public Class<? extends Task> taskClass() {
         this.logger.info("Get task");
-        return MQTTSourceTask.class;
+
+        return MQTTSinkTask.class;
     }
 
     @Override
-    public List<Map<String, String>> taskConfigs(int i) {
+    public List<Map<String, String>> taskConfigs(int maxTasks) {
         List<Map<String, String>> taskConfigs = new ArrayList<>(1);
         taskConfigs.add(new HashMap<>(this.configProps));
         this.logger.info("Received task");
@@ -35,8 +36,7 @@ public class MQTTSourceConnector extends SourceConnector {
 
     @Override
     public void stop() {
-        this.logger.info("Stopped MQTTSourceConnector");
-
+        this.logger.info("Stopped MQTTSinkConnector");
     }
 
     @Override

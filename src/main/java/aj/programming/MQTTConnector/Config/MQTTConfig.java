@@ -1,4 +1,4 @@
-package aj.programming.MQTTConnector.Source;
+package aj.programming.MQTTConnector.Config;
 
 import org.apache.kafka.common.config.AbstractConfig;
 import org.apache.kafka.common.config.ConfigDef;
@@ -10,17 +10,17 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 
-public class MQTTSourceConfig extends AbstractConfig {
-    private static final Logger logger = LoggerFactory.getLogger(MQTTSourceConfig.class);
+public class MQTTConfig extends AbstractConfig {
+    private static final Logger logger = LoggerFactory.getLogger(MQTTConfig.class);
     private static final String configName = "config.properties";
     private static final ConfigDefEx configDef = new ConfigDefEx();
 
     static {
         Properties properties = new Properties();
-        try (InputStream inputStream = MQTTSourceConfig.class.getClassLoader().getResourceAsStream(MQTTSourceConfig.configName)) {
+        try (InputStream inputStream = MQTTConfig.class.getClassLoader().getResourceAsStream(MQTTConfig.configName)) {
             properties.load(inputStream);
             logger.info("Loaded all config properties");
-            for (ConfigData configData : MQTTConfigNames.configSet) {
+            for (ConfigData configData : ConfigNames.configSet) {
                 Object propertyValue = properties.get(configData.getName());
                 ConfigOption configOption = null;
                 if (propertyValue != null) {
@@ -37,12 +37,12 @@ public class MQTTSourceConfig extends AbstractConfig {
         }
     }
 
-    public MQTTSourceConfig(Map<?, ?> originals) {
+    public MQTTConfig(Map<?, ?> originals) {
         super(getConfig(), originals, false);
     }
 
     public static ConfigDef getConfig() {
-        return MQTTSourceConfig.configDef;
+        return MQTTConfig.configDef;
     }
 
     @Override

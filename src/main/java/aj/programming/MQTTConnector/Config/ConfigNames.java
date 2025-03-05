@@ -1,11 +1,11 @@
-package aj.programming.MQTTConnector.Source;
+package aj.programming.MQTTConnector.Config;
 
 import org.apache.kafka.common.config.ConfigDef;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class MQTTConfigNames {
+public class ConfigNames {
     public static final String BROKER = "mqtt.broker";
     public static final String BROKER_DOC = "The URL of the MQTT broker (e.g., tcp://localhost:1883).";
 
@@ -27,6 +27,8 @@ public class MQTTConfigNames {
 
     public static final String KAFKA_TOPIC = "kafka.topic";
     public static final String KAFKA_TOPIC_DOC = "The Kafka topic to send messages to.";
+    public static final String KAFKA_TOPICS = "topics";
+    public static final String KAFKA_TOPICS_DOC = "List of kafka topics to consume from";
     public static final String MQTT_QOS = "mqtt.qos";
     public static final String MQTT_QOS_DOC = "The Quality of Service (QoS) level for the MQTT connection (0, 1, or 2).";
 
@@ -71,6 +73,7 @@ public class MQTTConfigNames {
         configSet.add(new ConfigData(MQTT_CLEANSESSION, MQTT_CLEANSESSION_DOC, ConfigDef.Type.BOOLEAN, ConfigDef.Importance.LOW));
         configSet.add(new ConfigData(MQTT_CONNECTIONTIMEOUT, MQTT_CONNECTIONTIMEOUT_DOC, ConfigDef.Type.INT, ConfigDef.Importance.MEDIUM));
         configSet.add(new ConfigData(KAFKA_TOPIC, KAFKA_TOPIC_DOC, true));
+        configSet.add(new ConfigData(KAFKA_TOPICS, KAFKA_TOPICS_DOC, ConfigDef.Importance.HIGH));
         configSet.add(new ConfigData(MQTT_QOS, MQTT_QOS_DOC, ConfigDef.Type.INT, ConfigDef.Importance.MEDIUM));
         configSet.add(new ConfigData(MQTT_USERNAME, MQTT_USERNAME_DOC, ConfigDef.Importance.MEDIUM));
         configSet.add(new ConfigData(MQTT_PASSWORD, MQTT_PASSWORD_DOC, ConfigDef.Importance.MEDIUM));

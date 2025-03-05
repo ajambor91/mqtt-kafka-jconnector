@@ -1,6 +1,7 @@
 package aj.programming.MQTTConnector.Source;
 
 import aj.programming.MQTTConnector.Buffers.SourceMessageBuffer;
+import aj.programming.MQTTConnector.Config.MQTTConfig;
 import aj.programming.MQTTConnector.TestUtils.TestConverter;
 import aj.programming.MQTTConnector.TestUtils.TestFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,12 +38,12 @@ public class MQTTSourceTaskTest {
 
         Field configField = MQTTSourceTask.class.getDeclaredField("config");
         configField.setAccessible(true);
-        MQTTSourceConfig mqttSourceConfig = (MQTTSourceConfig)  configField.get(mqttSourceTaskSpy);
+        MQTTConfig mqttConfig = (MQTTConfig)  configField.get(mqttSourceTaskSpy);
         Field bufferField = MQTTSourceTask.class.getDeclaredField("buffer");
         bufferField.setAccessible(true);
         SourceMessageBuffer buffer = (SourceMessageBuffer) bufferField.get(mqttSourceTaskSpy);
         assertThat(mqttSourceClient).isNotNull();
-        assertThat(mqttSourceConfig).isNotNull();
+        assertThat(mqttConfig).isNotNull();
         assertThat(buffer).isNotNull();
 
     }
