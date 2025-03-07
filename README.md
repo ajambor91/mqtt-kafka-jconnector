@@ -116,7 +116,6 @@ Similar as SourceConnecter is the basic required configuration. With these setti
 
 
 You can also edit the config.properties file in the resources directory. This file contains the default configuration, but remember that incoming configuration will take precedence.  
-Please note: Currently, the connector reliably receives messages from the MQTT broker. However, there may be issues with sending these messages to Kafka. I am actively working to resolve this problem and will provide an update as soon as possible    
 Built with Kafka Connect Api v. 3.9.0 and Eclipse Paho MQTTv3 v. 1.2.5 
 ## Testing
 Now are two the most important classes tested: MQTTSourceConnector, and MQTTSourceTask. First extends SourceConnector and second extends SourceTask, both from Kafka Connects Api.  
