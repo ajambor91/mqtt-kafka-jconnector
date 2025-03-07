@@ -1,6 +1,6 @@
 package aj.programming.MQTTConnector.Source;
 
-import aj.programming.MQTTConnector.Buffers.SourceMessageBuffer;
+import aj.programming.MQTTConnector.Buffers.MessageBuffer;
 import aj.programming.MQTTConnector.Config.MQTTConfig;
 import aj.programming.MQTTConnector.TestUtils.TestConverter;
 import aj.programming.MQTTConnector.TestUtils.TestFactory;
@@ -41,7 +41,7 @@ public class MQTTSourceTaskTest {
         MQTTConfig mqttConfig = (MQTTConfig)  configField.get(mqttSourceTaskSpy);
         Field bufferField = MQTTSourceTask.class.getDeclaredField("buffer");
         bufferField.setAccessible(true);
-        SourceMessageBuffer buffer = (SourceMessageBuffer) bufferField.get(mqttSourceTaskSpy);
+        MessageBuffer buffer = (MessageBuffer) bufferField.get(mqttSourceTaskSpy);
         assertThat(mqttSourceClient).isNotNull();
         assertThat(mqttConfig).isNotNull();
         assertThat(buffer).isNotNull();

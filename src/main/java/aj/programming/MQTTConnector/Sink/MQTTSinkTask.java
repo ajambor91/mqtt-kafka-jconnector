@@ -1,8 +1,8 @@
 package aj.programming.MQTTConnector.Sink;
 
-import aj.programming.MQTTConnector.Buffers.SinkMessageBuffer;
-import aj.programming.MQTTConnector.DTO.MessageDTO;
+import aj.programming.MQTTConnector.Buffers.MessageBuffer;
 import aj.programming.MQTTConnector.Config.MQTTConfig;
+import aj.programming.MQTTConnector.DTO.MessageDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.connect.sink.SinkRecord;
@@ -20,10 +20,12 @@ public class MQTTSinkTask extends SinkTask {
     private final ObjectMapper objectMapper;
     private MQTTConfig mqttConfig;
     private MQTTSinkClient mqttSinkClient;
-    private SinkMessageBuffer sinkMessageBuffer;
+    private MessageBuffer sinkMessageBuffer;
+
     public MQTTSinkTask() {
         this.objectMapper = new ObjectMapper();
     }
+
     @Override
     public String version() {
         return "";
@@ -31,7 +33,7 @@ public class MQTTSinkTask extends SinkTask {
 
     @Override
     public void start(Map<String, String> props) {
-        this.sinkMessageBuffer = new SinkMessageBuffer();
+        this.sinkMessageBuffer = new MessageBuffer();
         this.mqttConfig = new MQTTConfig(props);
         try {
             this.mqttSinkClient = new MQTTSinkClient(mqttConfig, sinkMessageBuffer);
@@ -46,7 +48,7 @@ public class MQTTSinkTask extends SinkTask {
         Iterator<SinkRecord> sinkRecordIterator = records.iterator();
         while (sinkRecordIterator.hasNext()) {
             SinkRecord record = sinkRecordIterator.next();
-            logger.info("Received message from topic: {}, timestamp: {}", record.topic(), record.timestamp());
+            logger.info("Received message from topic: {}, timestamp: {}, message: {}", record.topic(), record.timestamp(), record.value().toString());
             String recordValue = record.value().toString();
             try {
                 MessageDTO messageDTO = this.objectMapper.readValue(recordValue, MessageDTO.class);
@@ -62,5 +64,6 @@ public class MQTTSinkTask extends SinkTask {
     @Override
     public void stop() {
         this.mqttSinkClient.stop();
+        logger.info("MQTTSinkClient was stopped");
     }
 }

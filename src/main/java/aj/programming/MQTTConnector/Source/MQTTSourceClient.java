@@ -1,6 +1,6 @@
 package aj.programming.MQTTConnector.Source;
 
-import aj.programming.MQTTConnector.Buffers.SourceMessageBuffer;
+import aj.programming.MQTTConnector.Buffers.MessageBuffer;
 import aj.programming.MQTTConnector.Config.ConfigNames;
 import aj.programming.MQTTConnector.Config.MQTTConfig;
 import aj.programming.MQTTConnector.Helpers.MqttConnectOptionsHelper;
@@ -12,16 +12,18 @@ import org.slf4j.LoggerFactory;
 
 public class MQTTSourceClient extends MqttClient {
     private final Logger logger = LoggerFactory.getLogger(MQTTSourceClient.class);
-    private final SourceMessageBuffer messageBuffer;
+    private final MessageBuffer messageBuffer;
 
-    public MQTTSourceClient(MQTTConfig mqttConfig, SourceMessageBuffer messageBuffer) throws MqttException {
+    public MQTTSourceClient(MQTTConfig mqttConfig, MessageBuffer messageBuffer) throws MqttException {
         super(
                 mqttConfig.getString(ConfigNames.BROKER),
                 mqttConfig.getString(ConfigNames.MQTT_CLIENT_ID)
         );
-        this.logger.info("Created MQTTSourceClient");
+        this.logger.info("Initializing MQTTSourceClient");
         this.messageBuffer = messageBuffer;
         this.initialize(mqttConfig);
+        logger.info("MQTTSourceClient initialized");
+
     }
 
     @Override
@@ -29,7 +31,8 @@ public class MQTTSourceClient extends MqttClient {
         this.logger.info("Started subscription");
         super.subscribe(topicFilters, qos, (topic, message) -> {
             this.logger.info("Received message: {} from topic: {}", message, topic);
-            this.messageBuffer.addMessage(String.valueOf(message));
+            String clientId = this.getClientId();
+            this.messageBuffer.addMessage(String.valueOf(message), clientId);
         });
     }
 

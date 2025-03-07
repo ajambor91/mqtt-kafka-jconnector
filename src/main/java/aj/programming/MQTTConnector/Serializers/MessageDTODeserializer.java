@@ -9,12 +9,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-public class MessageDTODeserializer  extends JsonDeserializer<MessageDTO> {
+public class MessageDTODeserializer extends JsonDeserializer<MessageDTO> {
     @Override
     public MessageDTO deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException {
         ObjectMapper mapper = (ObjectMapper) jsonParser.getCodec();
         JsonNode root = mapper.readTree(jsonParser);
         JsonNode messageNumberNode = root.get("messageNumber");
+        JsonNode clientIdNode = root.get("clientId");
         JsonNode messageNode = root.get("message");
         JsonNode messageIdNode = root.get("messageId");
         JsonNode timestampNode = root.get("timestamp");
@@ -32,12 +33,15 @@ public class MessageDTODeserializer  extends JsonDeserializer<MessageDTO> {
             throw new NullPointerException("messageNumber in message cannot be null");
         }
 
+        if (clientIdNode == null || clientIdNode.asText().isEmpty()) {
+            throw new NullPointerException("clientId in message cannot be null");
+        }
         String message = messageNode.asText();
+        String clientId = clientIdNode.asText();
         String messageId = messageIdNode.asText();
         long timestamp = timestampNode.asLong();
         int messageNumber = messageNumberNode.asInt();
-
-        return new MessageDTO(message, messageId, messageNumber, timestamp);
+        return new MessageDTO(message, clientId, messageId, messageNumber, timestamp);
 
 
     }

@@ -32,9 +32,9 @@ These instructions will get you a copy of the project up and running on your loc
     ```bash
     mvn clean package assembly:single```
 3. Copy MQTTConnector-[version]-SNAPSHOT-jar-with-dependencies.jar from the target directory into your plugins path in Kafka Connect.
+#### Source Connector
 
-
-4. Send request to http://your-kafka-connects:8083/connectors with payload: 
+Send request to http://your-kafka-connects:8083/connectors with payload: 
 
 ``` bash
         {
@@ -86,6 +86,26 @@ And here is the complete list of configurable options:
             }
         }
 ```
+#### Sink Connector
+
+Send request 
+
+```bash
+        {
+            "name": "your-name",
+            "config": {
+                "connector.class": "aj.programming.MQTTConnector.Sink.MQTTSinkConnector",
+                "mqtt.clientId": "your-id",
+                "mqtt.topic": "your-topic",
+                "kafka.topic": "your-kafka-topic",
+                 "uniqueId": "id",
+                 "topics": "kafka=listen-topic"
+            }
+        }
+```
+Similar as SourceConnecter is the basic required configuration. With these settings, the MQTT broker defaults to tcp://localhost:1883, and the Kafka broker to localhost:9092, but you have to add "topics" field to set Kafka listen topic.
+
+
 
 You can also edit the config.properties file in the resources directory. This file contains the default configuration, but remember that incoming configuration will take precedence.  
 Please note: Currently, the connector reliably receives messages from the MQTT broker. However, there may be issues with sending these messages to Kafka. I am actively working to resolve this problem and will provide an update as soon as possible    
@@ -101,9 +121,8 @@ Make note, now for testing you have to run MQTT broker on your local machine wit
 ## Future Enhancements
 
 1. **Add unit and integration tests**
-2. **Add receiving Kafka messages and sending them to the MQTT broker**
-3. **Add TLS encryption**
-4. **Add documentation**
+2. **Add TLS encryption**
+3. **Add documentation**
 
 ## Contributing ##
 Feel free to open issues or submit pull requests. All contributions are welcome!

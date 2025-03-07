@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 public class MQTTSinkConnector extends SinkConnector {
-    private Logger logger = LoggerFactory.getLogger(MQTTSinkConnector.class);
+    private final Logger logger = LoggerFactory.getLogger(MQTTSinkConnector.class);
     private Map<String, String> configProps;
 
     @Override

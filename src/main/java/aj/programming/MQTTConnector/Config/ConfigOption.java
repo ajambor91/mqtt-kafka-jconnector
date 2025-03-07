@@ -9,8 +9,8 @@ public final class ConfigOption {
     private final String doc;
     private final ConfigDef.Type type;
     private final ConfigDef.Importance importance;
-    private Object value;
     private final boolean isRequired;
+    private Object value;
 
     public ConfigOption(ConfigData configData) {
         this.type = configData.getType();

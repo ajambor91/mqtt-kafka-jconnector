@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 public class MQTTSourceConnector extends SourceConnector {
-    private Map<String, String> configProps;
     private final Logger logger = LoggerFactory.getLogger(MQTTSourceConnector.class);
+    private Map<String, String> configProps;
 
     @Override
     public void start(Map<String, String> map) {

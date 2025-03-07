@@ -1,6 +1,6 @@
 package aj.programming.MQTTConnector.Source;
 
-import aj.programming.MQTTConnector.Buffers.SourceMessageBuffer;
+import aj.programming.MQTTConnector.Buffers.MessageBuffer;
 import aj.programming.MQTTConnector.Config.ConfigNames;
 import aj.programming.MQTTConnector.Config.MQTTConfig;
 import aj.programming.MQTTConnector.DTO.MessageDTO;
@@ -22,7 +22,7 @@ public class MQTTSourceTask extends SourceTask {
     private final ObjectMapper objectMapper;
     private MQTTConfig config;
     private MQTTSourceClient mqttClient;
-    private SourceMessageBuffer buffer;
+    private MessageBuffer buffer;
 
     public MQTTSourceTask() {
         this.objectMapper = new ObjectMapper();
@@ -35,7 +35,7 @@ public class MQTTSourceTask extends SourceTask {
 
     @Override
     public void start(Map<String, String> map) {
-        this.buffer = new SourceMessageBuffer();
+        this.buffer = new MessageBuffer();
         this.logger.info("New task started");
         this.config = new MQTTConfig(map);
         try {
@@ -60,7 +60,7 @@ public class MQTTSourceTask extends SourceTask {
         String kafkaTopic = config.getString(ConfigNames.KAFKA_TOPIC);
         String parsedMessage = null;
         try {
-             parsedMessage = this.objectMapper.writeValueAsString(message);
+            parsedMessage = this.objectMapper.writeValueAsString(message);
         } catch (JsonProcessingException e) {
             logger.error("Cannot parse message to string", e);
             throw new RuntimeException(e);
