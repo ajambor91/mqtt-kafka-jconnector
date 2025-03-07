@@ -1,6 +1,7 @@
 package aj.programming.MQTTConnector.Sink;
 
 import aj.programming.MQTTConnector.Config.MQTTConfig;
+import aj.programming.MQTTConnector.Config.Version;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.connect.connector.Task;
 import org.apache.kafka.connect.sink.SinkConnector;
@@ -46,6 +47,12 @@ public class MQTTSinkConnector extends SinkConnector {
 
     @Override
     public String version() {
-        return "";
+        String appVersion = Version.getAppVersion();
+        if (appVersion == null || appVersion.isEmpty()) {
+            appVersion = "Unknown application version";
+            logger.warn("Cannot read application version");
+        }
+
+        return appVersion;
     }
 }

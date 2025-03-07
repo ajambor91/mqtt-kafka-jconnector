@@ -1,5 +1,6 @@
 package aj.programming.MQTTConnector.Source;
 
+import aj.programming.MQTTConnector.Config.Version;
 import org.apache.kafka.common.config.ConfigDef;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,6 +60,6 @@ public class MQTTSourceConnectorTest {
     @Test
     void testVersion() {
         String version = connector.version();
-        assertThat(version).isEqualTo("");
+        assertThat(version).isEqualTo(Version.getAppVersion());
     }
 }

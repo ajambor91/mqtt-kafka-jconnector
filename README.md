@@ -31,7 +31,15 @@ These instructions will get you a copy of the project up and running on your loc
 
     ```bash
     mvn clean package assembly:single```
-3. Copy MQTTConnector-[version]-SNAPSHOT-jar-with-dependencies.jar from the target directory into your plugins path in Kafka Connect.
+
+The default build process runs unit tests. These tests require a running MQTT broker, such as Mosquitto.  
+Ensure the broker is running on the default port (1883) for the tests to pass.3. 
+If you don't want run any MQTT broker, you can paste below command to skip tests from building:
+
+```bash
+    mvn clean package assembly:single -DskipTests
+```
+3. Copy MQTTConnector.jar from the target directory into your plugins path in Kafka Connect.
 #### Source Connector
 
 Send request to http://your-kafka-connects:8083/connectors with payload: 

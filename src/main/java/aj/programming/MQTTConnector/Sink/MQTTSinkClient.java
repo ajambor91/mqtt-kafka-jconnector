@@ -61,8 +61,8 @@ public class MQTTSinkClient extends MqttClient {
     }
 
     private class MQTTPublisher implements Runnable {
-        private volatile boolean running;
         private final String clientId;
+        private volatile boolean running;
 
         private MQTTPublisher() {
             logger.info("Initializing MQTTPublisher");
