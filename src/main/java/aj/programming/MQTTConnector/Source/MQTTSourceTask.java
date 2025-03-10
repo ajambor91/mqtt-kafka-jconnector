@@ -3,6 +3,7 @@ package aj.programming.MQTTConnector.Source;
 import aj.programming.MQTTConnector.Buffers.MessageBuffer;
 import aj.programming.MQTTConnector.Config.ConfigNames;
 import aj.programming.MQTTConnector.Config.MQTTConfig;
+import aj.programming.MQTTConnector.Config.Version;
 import aj.programming.MQTTConnector.DTO.MessageDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,10 +29,6 @@ public class MQTTSourceTask extends SourceTask {
         this.objectMapper = new ObjectMapper();
     }
 
-    @Override
-    public String version() {
-        return "";
-    }
 
     @Override
     public void start(Map<String, String> map) {
@@ -41,6 +38,7 @@ public class MQTTSourceTask extends SourceTask {
         try {
             this.logger.info("Creating MQTTSourceClient");
             this.mqttClient = new MQTTSourceClient(this.config, this.buffer);
+            this.mqttClient.initialize();
 
         } catch (MqttException e) {
             this.logger.error("Cannot start MQTTSourceCLient");
@@ -95,6 +93,17 @@ public class MQTTSourceTask extends SourceTask {
     public void stop() {
         this.logger.info("Task stopped");
 
+    }
+
+    @Override
+    public String version() {
+        String appVersion = Version.getAppVersion();
+        if (appVersion == null || appVersion.isEmpty()) {
+            appVersion = "Unknown application version";
+            logger.warn("Cannot read application version");
+        }
+
+        return appVersion;
     }
 
 }

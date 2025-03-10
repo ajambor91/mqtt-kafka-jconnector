@@ -13,16 +13,16 @@ import org.slf4j.LoggerFactory;
 public class MQTTSourceClient extends MqttClient {
     private final Logger logger = LoggerFactory.getLogger(MQTTSourceClient.class);
     private final MessageBuffer messageBuffer;
+    private final MQTTConfig mqttConfig;
 
     public MQTTSourceClient(MQTTConfig mqttConfig, MessageBuffer messageBuffer) throws MqttException {
         super(
                 mqttConfig.getString(ConfigNames.BROKER),
                 mqttConfig.getString(ConfigNames.MQTT_CLIENT_ID)
         );
+        this.mqttConfig = mqttConfig;
         this.logger.info("Initializing MQTTSourceClient");
         this.messageBuffer = messageBuffer;
-        this.initialize(mqttConfig);
-        logger.info("MQTTSourceClient initialized");
 
     }
 
@@ -36,7 +36,7 @@ public class MQTTSourceClient extends MqttClient {
         });
     }
 
-    private void initialize(MQTTConfig mqttConfig) throws MqttException {
+    public void initialize() throws MqttException {
         this.logger.info("Adding MQTT options");
         MqttConnectOptions mqttConnectOptions = MqttConnectOptionsHelper.getOptions(mqttConfig);
         this.logger.info("Initialized MQTTClient");

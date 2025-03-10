@@ -2,6 +2,7 @@ package aj.programming.MQTTConnector.Sink;
 
 import aj.programming.MQTTConnector.Buffers.MessageBuffer;
 import aj.programming.MQTTConnector.Config.MQTTConfig;
+import aj.programming.MQTTConnector.Config.Version;
 import aj.programming.MQTTConnector.DTO.MessageDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,10 +27,6 @@ public class MQTTSinkTask extends SinkTask {
         this.objectMapper = new ObjectMapper();
     }
 
-    @Override
-    public String version() {
-        return "";
-    }
 
     @Override
     public void start(Map<String, String> props) {
@@ -37,6 +34,7 @@ public class MQTTSinkTask extends SinkTask {
         this.mqttConfig = new MQTTConfig(props);
         try {
             this.mqttSinkClient = new MQTTSinkClient(mqttConfig, sinkMessageBuffer);
+            this.mqttSinkClient.connect();
         } catch (MqttException e) {
             this.logger.error("Cannot connect to MQTT broker", e);
             throw new RuntimeException(e);
@@ -65,5 +63,16 @@ public class MQTTSinkTask extends SinkTask {
     public void stop() {
         this.mqttSinkClient.stop();
         logger.info("MQTTSinkClient was stopped");
+    }
+
+    @Override
+    public String version() {
+        String appVersion = Version.getAppVersion();
+        if (appVersion == null || appVersion.isEmpty()) {
+            appVersion = "Unknown application version";
+            logger.warn("Cannot read application version");
+        }
+
+        return appVersion;
     }
 }

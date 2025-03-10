@@ -2,7 +2,9 @@ package aj.programming.MQTTConnector.Source;
 
 import aj.programming.MQTTConnector.Config.Version;
 import org.apache.kafka.common.config.ConfigDef;
+import org.apache.kafka.connect.connector.Task;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +19,7 @@ public class MQTTSourceConnectorTest {
 
     private MQTTSourceConnector connector;
     private Map<String, String> configProps;
-    private Logger logger = LoggerFactory.getLogger(MQTTSourceConnectorTest.class);
+    private final Logger logger = LoggerFactory.getLogger(MQTTSourceConnectorTest.class);
 
     @BeforeEach
     void setup() {
@@ -28,17 +30,20 @@ public class MQTTSourceConnectorTest {
     }
 
     @Test
+    @DisplayName("Should start MQTT source connector task")
     void testStart() {
         connector.start(configProps);
     }
 
     @Test
+    @DisplayName("Should return mqtt source task")
     void testTaskClass() {
-        Class<? extends org.apache.kafka.connect.connector.Task> taskClass = connector.taskClass();
+        Class<? extends Task> taskClass = connector.taskClass();
         assertThat(taskClass).isEqualTo(MQTTSourceTask.class);
     }
 
     @Test
+    @DisplayName("Return MQTT source connector task config")
     void testTaskConfigs() {
         connector.start(configProps);
         List<Map<String, String>> taskConfigs = connector.taskConfigs(1);
@@ -47,17 +52,21 @@ public class MQTTSourceConnectorTest {
     }
 
     @Test
+    @DisplayName("Should stop MQTT source connector")
     void testStop() {
         connector.start(configProps);
-        connector.stop();}
+        connector.stop();
+    }
 
     @Test
+    @DisplayName("Should return current config ")
     void testConfig() {
         ConfigDef configDef = connector.config();
         assertThat(configDef).isNotNull();
     }
 
     @Test
+    @DisplayName("Should return current application version")
     void testVersion() {
         String version = connector.version();
         assertThat(version).isEqualTo(Version.getAppVersion());

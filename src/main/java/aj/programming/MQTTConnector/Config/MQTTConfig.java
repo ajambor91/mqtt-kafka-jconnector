@@ -1,7 +1,6 @@
 package aj.programming.MQTTConnector.Config;
 
 import org.apache.kafka.common.config.AbstractConfig;
-import org.apache.kafka.common.config.ConfigDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +40,7 @@ public class MQTTConfig extends AbstractConfig {
         super(getConfig(), originals, false);
     }
 
-    public static ConfigDef getConfig() {
+    public static ConfigDefEx getConfig() {
         return MQTTConfig.configDef;
     }
 

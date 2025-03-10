@@ -21,7 +21,7 @@ public class MQTTSinkClient extends MqttClient {
     private final Logger logger = LoggerFactory.getLogger(MQTTSinkClient.class);
     private final MessageBuffer sinkMessageBuffer;
     private final MQTTConfig config;
-    private final MQTTPublisher mqttPublisher;
+    private final MQTTPublisherRunnable mqttPublisher;
     private final Thread mqttPublisherThread;
 
     public MQTTSinkClient(MQTTConfig mqttConfig, MessageBuffer sinkMessageBuffer) throws MqttException {
@@ -33,15 +33,13 @@ public class MQTTSinkClient extends MqttClient {
         this.config = mqttConfig;
         this.objectMapper = new ObjectMapper();
         this.sinkMessageBuffer = sinkMessageBuffer;
-        this.connect(mqttConfig);
         this.mqttPublisher = new MQTTPublisher();
         this.mqttPublisherThread = new Thread(mqttPublisher);
-        mqttPublisherThread.start();
         logger.info("MQTTSinkClient initialized");
     }
 
-    public void connect(MQTTConfig mqttConfig) throws MqttException {
-        MqttConnectOptions mqttConnectOptions = MqttConnectOptionsHelper.getOptions(mqttConfig);
+    public void connect() throws MqttException {
+        MqttConnectOptions mqttConnectOptions = MqttConnectOptionsHelper.getOptions(config);
         this.connect(mqttConnectOptions);
     }
 
@@ -60,7 +58,7 @@ public class MQTTSinkClient extends MqttClient {
 
     }
 
-    private class MQTTPublisher implements Runnable {
+    private class MQTTPublisher implements MQTTPublisherRunnable {
         private final String clientId;
         private volatile boolean running;
 

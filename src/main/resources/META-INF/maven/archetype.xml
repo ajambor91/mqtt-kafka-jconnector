@@ -1,7 +1,7 @@
 <archetype>
-  <id>MQTTConnector</id>
-  <sources>
-    <source>src/main/java/aj/programming/MQTTConnector/Source/MQTTSourceConnector.java;
-    </source>
-  </sources>
+    <id>MQTTConnector</id>
+    <sources>
+        <source>src/main/java/aj/programming/MQTTConnector/Source/MQTTSourceConnector.java;
+        </source>
+    </sources>
 </archetype>
